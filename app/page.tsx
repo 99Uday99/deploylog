@@ -1,7 +1,5 @@
-import { Builder } from 'selenium-webdriver';
-import chrome from 'selenium-webdriver/chrome';
+"use client";
 
-<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import { DeploymentCard, Deployment } from './components/DeploymentCard';
 
@@ -9,33 +7,19 @@ export default function Home() {
   // Define state with the correct Deployment[] type
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [loading, setLoading] = useState(false);
-=======
-(async function example() {
-  const driver = await new Builder()
-    .forBrowser('chrome')
-    .setChromeOptions(
-      new chrome.Options().addArguments(
-        '--headless',
-        '--no-sandbox',
-        '--disable-dev-shm-usage'
-      )
-    )
-    .build();
 
-  try {
-    console.log('Navigating to homepage...');
-    await driver.get('http://localhost:3000');
->>>>>>> f0160d8 (Some updates to remove errors again)
-
-    console.log('Waiting for title...');
-    const title = await driver.getTitle();
-    console.log('Page title is:', title);
-
-    if (!title.includes('DeployLog')) {
-      throw new Error(`Title check failed. Found: ${title}`);
+  const fetchDeployments = async () => {
+    try {
+      const response = await fetch('/api/deployments');
+      if (response.ok) {
+        const data = await response.json();
+        setDeployments(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch deployments:', error);
     }
+  };
 
-<<<<<<< HEAD
   useEffect(() => {
     fetchDeployments();
     // Poll every 3 seconds
@@ -100,13 +84,3 @@ export default function Home() {
     </main>
   );
 }
-=======
-    console.log('E2E Test Passed!');
-  } catch (error) {
-    console.error('Test failed:', error);
-    process.exit(1);
-  } finally {
-    await driver.quit();
-  }
-})();
->>>>>>> f0160d8 (Some updates to remove errors again)

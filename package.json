@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start -H 0.0.0.0",
     "lint": "eslint",
-    "test:e2e": "node tests/e2e/pipeline.test.js",
-    "type": "module"
+    "test:e2e": "node tests/e2e/pipeline.test.mjs"
   },
+  "type": "module",
   "dependencies": {
     "@prisma/client": "5.22.0",
     "next": "16.1.1",
