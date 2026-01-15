@@ -47,7 +47,7 @@ export async function GET() {
                         const jobsData = await jobsRes.json();
                         const job = jobsData.jobs[0]; // Assuming one main job
                         if (job) {
-                            const currentStep = job.steps.find((s: any) => s.status === 'in_progress');
+                            const currentStep = job.steps.find((s: { status: string; name: string }) => s.status === 'in_progress');
                             if (currentStep) {
                                 const name = currentStep.name.toLowerCase();
                                 if (name.includes('lint')) status = 'linting';

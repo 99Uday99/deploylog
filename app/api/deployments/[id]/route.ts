@@ -20,7 +20,7 @@ export async function PATCH(
         });
 
         return NextResponse.json(deployment);
-    } catch (error) {
+    } catch (_error) {
         return NextResponse.json({ error: 'Failed to update deployment' }, { status: 500 });
     }
 }

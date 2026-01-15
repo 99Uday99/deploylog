@@ -6,7 +6,7 @@ import { DeploymentCard, Deployment } from './components/DeploymentCard';
 export default function Home() {
   // Define state with the correct Deployment[] type
   const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const [loading, setLoading] = useState(false);
+
 
   const fetchDeployments = async () => {
     try {
@@ -31,24 +31,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const triggerDeployment = async () => {
-    setLoading(true);
-    try {
-      await fetch('/api/deployments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          branch: 'main',
-          commitMessage: `Triggered from UI at ${new Date().toLocaleTimeString()}`
-        })
-      });
-      fetchDeployments();
-    } catch (error) {
-      console.error('Failed to trigger deployment', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-12 font-sans">
