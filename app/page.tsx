@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { DeploymentCard, Deployment } from './components/DeploymentCard';
+import Link from 'next/link';
 
 export default function Home() {
   // Define state with the correct Deployment[] type
+  // Define state with the correct Deployment[] type
   const [deployments, setDeployments] = useState<Deployment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -22,6 +25,8 @@ export default function Home() {
         }
       } catch (error) {
         console.error('Failed to fetch deployments:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -38,14 +43,29 @@ export default function Home() {
       <div className="max-w-3xl mx-auto">
         <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">DeployLog</h1>
-            <p className="text-gray-500 mt-1">Live Deployment Feeds</p>
+            <h1
+              className="text-3xl font-bold text-gray-900 tracking-tight cursor-pointer hover:text-gray-700 transition-colors"
+              onClick={() => window.location.reload()}
+              title="Refresh Dashboard"
+            >
+              DeployLog
+            </h1>
+            <p className="text-gray-500 mt-1 hover:text-gray-800 transition-colors duration-200 cursor-default w-fit">
+              Live Deployment Feeds
+            </p>
           </div>
+          <Link href="/about" className="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 hover:shadow-sm active:scale-95 transition-all duration-200">
+            About
+          </Link>
 
         </header>
 
         <div className="space-y-4">
-          {deployments.length > 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            </div>
+          ) : deployments.length > 0 ? (
             // FIX: Removed ': any'. TypeScript infers 'd' is 'Deployment' automatically.
             deployments.map((d) => (
               <DeploymentCard key={d.id} deployment={d} />
