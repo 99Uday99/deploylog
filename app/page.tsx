@@ -8,23 +8,23 @@ export default function Home() {
   const [deployments, setDeployments] = useState<Deployment[]>([]);
 
 
-  const fetchDeployments = async () => {
-    try {
-      // 1. Trigger Sync
-      await fetch('/api/deployments/sync');
-
-      // 2. Fetch Local Data
-      const response = await fetch('/api/deployments');
-      if (response.ok) {
-        const data = await response.json();
-        setDeployments(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch deployments:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchDeployments = async () => {
+      try {
+        // 1. Trigger Sync
+        await fetch('/api/deployments/sync');
+
+        // 2. Fetch Local Data
+        const response = await fetch('/api/deployments');
+        if (response.ok) {
+          const data = await response.json();
+          setDeployments(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch deployments:', error);
+      }
+    };
+
     fetchDeployments();
     // Poll every 5 seconds
     const interval = setInterval(fetchDeployments, 5000);

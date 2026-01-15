@@ -8,7 +8,7 @@ export async function GET() {
             take: 20,
         });
         return NextResponse.json(deployments);
-    } catch (_error) {
+    } catch {
         return NextResponse.json({ error: 'Failed to fetch deployments' }, { status: 500 });
     }
 }
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
             },
         });
         return NextResponse.json(deployment);
-    } catch (_error) {
+    } catch {
         return NextResponse.json({ error: 'Failed to create deployment' }, { status: 500 });
     }
 }

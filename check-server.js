@@ -7,7 +7,7 @@ client.connect(3000, '127.0.0.1', function () {
     client.destroy();
 });
 
-client.on('error', function (_err) {
+client.on('error', function () {
     console.log('Failed to connect to 127.0.0.1:3000');
     // console.error(err);
 
@@ -17,7 +17,7 @@ client.on('error', function (_err) {
         console.log('Connected to [::1]:3000');
         client6.destroy();
     });
-    client6.on('error', (_err6) => {
+    client6.on('error', () => {
         console.log('Failed to connect to [::1]:3000');
         // console.error(err6);
     });
