@@ -12,8 +12,11 @@ export interface Deployment {
 
 export function DeploymentCard({ deployment }: { deployment: Deployment }) {
     const statusColors: Record<string, string> = {
-        queued: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+        queued: 'bg-gray-100 text-gray-800 border-gray-200',
         running: 'bg-blue-100 text-blue-800 border-blue-200',
+        linting: 'bg-purple-100 text-purple-800 border-purple-200',
+        testing: 'bg-orange-100 text-orange-800 border-orange-200',
+        building: 'bg-cyan-100 text-cyan-800 border-cyan-200',
         success: 'bg-green-100 text-green-800 border-green-200',
         failed: 'bg-red-100 text-red-800 border-red-200',
     };
@@ -36,7 +39,18 @@ export function DeploymentCard({ deployment }: { deployment: Deployment }) {
                     {new Date(deployment.createdAt).toLocaleString()}
                     {deployment.commitMessage && <span className="ml-2 italic opacity-75">- {deployment.commitMessage}</span>}
                 </p>
+
             </div>
-        </div>
+            {/^\d+$/.test(deployment.id) && (
+                <a
+                    href={`https://github.com/Jay061205/deploylog/actions/runs/${deployment.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-4 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-md hover:bg-white hover:text-blue-600 transition-colors"
+                >
+                    View Logs ↗
+                </a>
+            )}
+        </div >
     );
 }

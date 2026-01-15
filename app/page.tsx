@@ -10,6 +10,10 @@ export default function Home() {
 
   const fetchDeployments = async () => {
     try {
+      // 1. Trigger Sync
+      await fetch('/api/deployments/sync');
+
+      // 2. Fetch Local Data
       const response = await fetch('/api/deployments');
       if (response.ok) {
         const data = await response.json();
@@ -22,8 +26,8 @@ export default function Home() {
 
   useEffect(() => {
     fetchDeployments();
-    // Poll every 3 seconds
-    const interval = setInterval(fetchDeployments, 3000);
+    // Poll every 5 seconds
+    const interval = setInterval(fetchDeployments, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -54,17 +58,7 @@ export default function Home() {
             <h1 className="text-3xl font-bold text-gray-900 tracking-tight">DeployLog</h1>
             <p className="text-gray-500 mt-1">Live Deployment Feeds</p>
           </div>
-          <button
-            onClick={triggerDeployment}
-            disabled={loading}
-            className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm
-              ${loading
-                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                : 'bg-black text-white hover:bg-gray-800 hover:shadow-md'
-              }`}
-          >
-            {loading ? 'Starting...' : 'New Deployment'}
-          </button>
+
         </header>
 
         <div className="space-y-4">
