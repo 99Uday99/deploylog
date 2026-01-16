@@ -68,7 +68,7 @@ export function DeploymentCard({ deployment }: { deployment: Deployment }) {
             View Logs ↗
           </a>
           <Link
-            href="/visualmode"
+            href={`/visualmode/${deployment.id}`}
             className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 transition-colors text-center"
           >
             Visual Mode

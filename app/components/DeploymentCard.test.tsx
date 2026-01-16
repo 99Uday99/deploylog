@@ -39,7 +39,7 @@ describe('DeploymentCard', () => {
 
     const visualLink = screen.getByRole('link', { name: /visual mode/i });
     expect(visualLink).toBeInTheDocument();
-    expect(visualLink).toHaveAttribute('href', '/visualmode');
+    expect(visualLink).toHaveAttribute('href', '/visualmode/123456789');
   });
 
   it('does not render view logs link when id is invalid', () => {
