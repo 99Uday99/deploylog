@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { StageView } from '@/app/components/StageView';
 
 export default function VisualModePage() {
   const [activeTab, setActiveTab] = useState('Stageview');
@@ -27,7 +26,7 @@ export default function VisualModePage() {
               <motion.div
                 layoutId="active-pill"
                 className="absolute inset-0 bg-white rounded-full shadow-sm"
-                transition={{ type: 'spring', duration: 0.5 }}
+                transition={{ type: "spring", duration: 0.5 }}
                 style={{ zIndex: -1 }}
               />
             )}
@@ -39,21 +38,11 @@ export default function VisualModePage() {
       {/* Content Area */}
       <div className="flex-1 w-full max-w-4xl p-8 flex flex-col items-center justify-center text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{activeTab}</h2>
-
-        {activeTab === 'Stageview' && (
-          <div className="w-full">
-            {/* We will implement data fetching directly here for simplicity, or assume it's passed. 
-                             For a generic client component, we'll fetch on mount.
-                         */}
-            <StageViewContainer />
-          </div>
-        )}
-
-        <div className="mb-8 text-gray-600">
-          {activeTab === 'Pipeline graph' &&
-            'Visual graph representation of the pipeline.'}
-          {activeTab === 'AI Mode' && 'AI-powered insights and analysis.'}
-        </div>
+        <p className="text-gray-600 mb-8">
+          {activeTab === 'Stageview' && "Detailed breakdown of deployment stages goes here."}
+          {activeTab === 'Pipeline graph' && "Visual graph representation of the pipeline."}
+          {activeTab === 'AI Mode' && "AI-powered insights and analysis."}
+        </p>
 
         <Link
           href="/"
@@ -64,35 +53,4 @@ export default function VisualModePage() {
       </div>
     </div>
   );
-}
-
-function StageViewContainer() {
-  // Define a minimal type for the client-side state
-  type Deployment = {
-    id: string;
-    commitHash: string;
-    stages: {
-      id: string;
-      name: string;
-      status: string;
-      startedAt: string;
-      endedAt?: string;
-    }[];
-  };
-
-  const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  React.useEffect(() => {
-    fetch('/api/deployments?includeStages=true')
-      .then((res) => res.json())
-      .then((data) => {
-        setDeployments(data);
-        setLoading(false);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
-  if (loading) return <div>Loading stages...</div>;
-  return <StageView deployments={deployments} />;
 }

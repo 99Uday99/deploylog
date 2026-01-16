@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const includeStages = searchParams.get('includeStages') === 'true';
-
+export async function GET() {
   try {
     const deployments = await prisma.deployment.findMany({
       orderBy: { createdAt: 'desc' },
       take: 20,
-      include: {
-        stages: includeStages,
-      },
     });
     return NextResponse.json(deployments);
   } catch {
