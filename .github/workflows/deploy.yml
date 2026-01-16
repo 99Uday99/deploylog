@@ -45,7 +45,8 @@ jobs:
         id: create_deployment
         # Using a separate step to capture ID safely
         run: |
-          RESPONSE=$(curl -X POST http://localhost:3000/api/deployments \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          RESPONSE=$(curl -X POST "$API_URL/api/deployments" \
             -H "Content-Type: application/json" \
             -d '{
               "projectName": "DeployLog",
@@ -58,13 +59,15 @@ jobs:
 
       - name: Update Status (Linting)
         run: |
-          curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X PATCH "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "linting"}'
 
       - name: Report Linting Start
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Lint", "status": "running"}'
 
@@ -77,26 +80,30 @@ jobs:
       - name: Report Linting Success
         if: success()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Lint", "status": "success"}'
 
       - name: Report Linting Failure
         if: failure()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Lint", "status": "failed"}'
 
       - name: Update Status (Testing)
         run: |
-          curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X PATCH "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "testing"}'
 
       - name: Report Testing Start
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Test", "status": "running"}'
 
@@ -109,26 +116,30 @@ jobs:
       - name: Report Testing Success
         if: success()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Test", "status": "success"}'
 
       - name: Report Testing Failure
         if: failure()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Test", "status": "failed"}'
 
       - name: Update Status (Building)
         run: |
-          curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X PATCH "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "building"}'
 
       - name: Report Building Start
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Build", "status": "running"}'
 
@@ -138,27 +149,31 @@ jobs:
       - name: Report Building Success
         if: success()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Build", "status": "success"}'
 
       - name: Report Building Failure
         if: failure()
         run: |
-          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X POST "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages" \
             -H "Content-Type: application/json" \
             -d '{"name": "Build", "status": "failed"}'
 
       - name: Update Deployment Status (Success)
         if: success()
         run: |
-          curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X PATCH "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "success", "logs": "Pipeline completed successfully. \n- Linting: Passed \n- Tests: Passed \n- Docker Build: Passed"}'
 
       - name: Update Deployment Status (Failure)
         if: failure() && steps.create_deployment.outputs.DEPLOYMENT_ID
         run: |
-          curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
+          API_URL="${{ secrets.API_URL || 'http://localhost:3000' }}"
+          curl -X PATCH "$API_URL/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "failed", "logs": "Pipeline failed. Check GitHub Actions logs for details."}'
