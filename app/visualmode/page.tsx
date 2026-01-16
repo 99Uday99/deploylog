@@ -66,7 +66,14 @@ export default function VisualModePage() {
 }
 
 function StageViewContainer() {
-    const [deployments, setDeployments] = useState([]);
+    // Define a minimal type for the client-side state
+    type Deployment = {
+        id: string;
+        commitHash: string;
+        stages: { id: string; name: string; status: string; startedAt: string; endedAt?: string }[];
+    };
+
+    const [deployments, setDeployments] = useState<Deployment[]>([]);
     const [loading, setLoading] = useState(true);
 
     React.useEffect(() => {
@@ -80,6 +87,5 @@ function StageViewContainer() {
     }, []);
 
     if (loading) return <div>Loading stages...</div>;
-    // @ts-ignore
     return <StageView deployments={deployments} />;
 }
