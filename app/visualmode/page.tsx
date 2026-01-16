@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ export default function VisualModePage() {
               <motion.div
                 layoutId="active-pill"
                 className="absolute inset-0 bg-white rounded-full shadow-sm"
-                transition={{ type: "spring", duration: 0.5 }}
+                transition={{ type: 'spring', duration: 0.5 }}
                 style={{ zIndex: -1 }}
               />
             )}
@@ -39,9 +39,11 @@ export default function VisualModePage() {
       <div className="flex-1 w-full max-w-4xl p-8 flex flex-col items-center justify-center text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{activeTab}</h2>
         <p className="text-gray-600 mb-8">
-          {activeTab === 'Stageview' && "Detailed breakdown of deployment stages goes here."}
-          {activeTab === 'Pipeline graph' && "Visual graph representation of the pipeline."}
-          {activeTab === 'AI Mode' && "AI-powered insights and analysis."}
+          {activeTab === 'Stageview' &&
+            'Detailed breakdown of deployment stages goes here.'}
+          {activeTab === 'Pipeline graph' &&
+            'Visual graph representation of the pipeline.'}
+          {activeTab === 'AI Mode' && 'AI-powered insights and analysis.'}
         </p>
 
         <Link
