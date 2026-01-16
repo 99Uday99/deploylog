@@ -2,9 +2,9 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build-and-test:
@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: read
     env:
-      DATABASE_URL: "file:./dev.db"
+      DATABASE_URL: 'file:./dev.db'
 
     steps:
       - name: Checkout code
@@ -20,7 +20,7 @@ jobs:
 
       - name: Set up Chromium
         uses: browser-actions/setup-chrome@latest
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:

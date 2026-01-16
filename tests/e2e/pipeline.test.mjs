@@ -24,7 +24,6 @@ import chrome from 'selenium-webdriver/chrome.js';
       throw new Error('Title check failed. No title found.');
     }
 
-
     console.log('E2E Test Passed!');
   } catch (error) {
     console.error('Test failed:', error);

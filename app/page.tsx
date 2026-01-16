@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { DeploymentCard, Deployment } from './components/DeploymentCard';
@@ -9,7 +9,6 @@ export default function Home() {
   // Define state with the correct Deployment[] type
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchDeployments = async () => {
@@ -36,8 +35,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-
-
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-12 font-sans">
       <div className="max-w-3xl mx-auto">
@@ -54,10 +51,12 @@ export default function Home() {
               Live Deployment Feeds
             </p>
           </div>
-          <Link href="/about" className="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 hover:shadow-sm active:scale-95 transition-all duration-200">
+          <Link
+            href="/about"
+            className="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 hover:shadow-sm active:scale-95 transition-all duration-200"
+          >
             About
           </Link>
-
         </header>
 
         <div className="space-y-4">
@@ -67,13 +66,13 @@ export default function Home() {
             </div>
           ) : deployments.length > 0 ? (
             // FIX: Removed ': any'. TypeScript infers 'd' is 'Deployment' automatically.
-            deployments.map((d) => (
-              <DeploymentCard key={d.id} deployment={d} />
-            ))
+            deployments.map((d) => <DeploymentCard key={d.id} deployment={d} />)
           ) : (
             <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
               <p className="text-gray-500">No deployments found.</p>
-              <p className="text-sm text-gray-400 mt-1">Trigger one to get started.</p>
+              <p className="text-sm text-gray-400 mt-1">
+                Trigger one to get started.
+              </p>
             </div>
           )}
         </div>
