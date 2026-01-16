@@ -57,8 +57,8 @@ export function DeploymentCard({ deployment }: { deployment: Deployment }) {
           )}
         </p>
       </div>
-      {/^\d+$/.test(deployment.id) && (
-        <div className="flex flex-col gap-2 ml-4">
+      <div className="flex flex-col gap-2 ml-4">
+        {/^\d+$/.test(deployment.id) && (
           <a
             href={`https://github.com/Jay061205/deploylog/actions/runs/${deployment.id}`}
             target="_blank"
@@ -67,14 +67,14 @@ export function DeploymentCard({ deployment }: { deployment: Deployment }) {
           >
             View Logs ↗
           </a>
-          <Link
-            href={`/visualmode/${deployment.id}`}
-            className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 transition-colors text-center"
-          >
-            Visual Mode
-          </Link>
-        </div>
-      )}
+        )}
+        <Link
+          href={`/visualmode/${deployment.id}`}
+          className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 transition-colors text-center"
+        >
+          Visual Mode
+        </Link>
+      </div>
     </div>
   );
 }

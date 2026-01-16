@@ -13,10 +13,10 @@ async function main() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      projectName: 'DeployLog-Simulation',
-      branch: 'feature/observability',
-      commitHash: 'a1b2c3d',
-      commitMessage: 'Testing status updates',
+      projectName: 'DeployLog-Success-Demo',
+      branch: 'feature/optimization',
+      commitHash: '789abc',
+      commitMessage: 'Performance improvements (verified)',
       status: 'queued',
     }),
   });
