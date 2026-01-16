@@ -16,6 +16,7 @@
   "type": "module",
   "dependencies": {
     "@prisma/client": "5.22.0",
+    "framer-motion": "^12.26.2",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -30,6 +31,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/selenium-webdriver": "^4.35.5",
+    "@types/testing-library__jest-dom": "^5.14.9",
     "chromedriver": "^143.0.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",

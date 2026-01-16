@@ -62,11 +62,31 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"status": "linting"}'
 
+      - name: Report Linting Start
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Lint", "status": "running"}'
+
       - name: Lint
         run: npm run lint
 
       - name: Check Formatting
         run: npx prettier --check .
+
+      - name: Report Linting Success
+        if: success()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Lint", "status": "success"}'
+      
+      - name: Report Linting Failure
+        if: failure()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Lint", "status": "failed"}'
 
       - name: Update Status (Testing)
         run: |
@@ -74,11 +94,31 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"status": "testing"}'
 
+      - name: Report Testing Start
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Test", "status": "running"}'
+
       - name: Run Unit Tests
         run: npm run test
 
       - name: Run E2E Tests
         run: npm run test:e2e
+
+      - name: Report Testing Success
+        if: success()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Test", "status": "success"}'
+
+      - name: Report Testing Failure
+        if: failure()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Test", "status": "failed"}'
 
       - name: Update Status (Building)
         run: |
@@ -86,8 +126,28 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"status": "building"}'
 
+      - name: Report Building Start
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Build", "status": "running"}'
+
       - name: Build Docker Image
         run: docker build -t deploylog:latest .
+
+      - name: Report Building Success
+        if: success()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Build", "status": "success"}'
+
+      - name: Report Building Failure
+        if: failure()
+        run: |
+          curl -X POST http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }}/stages \
+            -H "Content-Type: application/json" \
+            -d '{"name": "Build", "status": "failed"}'
 
       - name: Update Deployment Status (Success)
         if: success()

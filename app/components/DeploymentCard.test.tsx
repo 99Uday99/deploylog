@@ -36,6 +36,10 @@ describe('DeploymentCard', () => {
       'href',
       'https://github.com/Jay061205/deploylog/actions/runs/123456789'
     );
+
+    const visualLink = screen.getByRole('link', { name: /visual mode/i });
+    expect(visualLink).toBeInTheDocument();
+    expect(visualLink).toHaveAttribute('href', '/visualmode');
   });
 
   it('does not render view logs link when id is invalid', () => {

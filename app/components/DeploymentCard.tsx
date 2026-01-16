@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export interface Deployment {
   id: string;
@@ -57,14 +58,22 @@ export function DeploymentCard({ deployment }: { deployment: Deployment }) {
         </p>
       </div>
       {/^\d+$/.test(deployment.id) && (
-        <a
-          href={`https://github.com/Jay061205/deploylog/actions/runs/${deployment.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-4 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-md hover:bg-white hover:text-blue-600 transition-colors"
-        >
-          View Logs ↗
-        </a>
+        <div className="flex flex-col gap-2 ml-4">
+          <a
+            href={`https://github.com/Jay061205/deploylog/actions/runs/${deployment.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-md hover:bg-white hover:text-blue-600 transition-colors text-center"
+          >
+            View Logs ↗
+          </a>
+          <Link
+            href="/visualmode"
+            className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 transition-colors text-center"
+          >
+            Visual Mode
+          </Link>
+        </div>
       )}
     </div>
   );
