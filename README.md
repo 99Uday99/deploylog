@@ -1,4 +1,5 @@
 # DeployLog 🚀
+![Build Status](https://github.com/99Uday99/deploylog/actions/workflows/deploy.yml/badge.svg)
 
 **DeployLog** is a real-time CI/CD dashboard that visualizes the status of your deployment pipelines. Unlike traditional dashboards that passively pull data, DeployLog engages in an active feedback loop with your CI/CD pipeline, providing instant granular updates from "Queued" to "Success".
 
