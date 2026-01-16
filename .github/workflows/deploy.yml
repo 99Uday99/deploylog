@@ -65,11 +65,17 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check Formatting
+        run: npx prettier --check .
+
       - name: Update Status (Testing)
         run: |
           curl -X PATCH http://localhost:3000/api/deployments/${{ steps.create_deployment.outputs.DEPLOYMENT_ID }} \
             -H "Content-Type: application/json" \
             -d '{"status": "testing"}'
+
+      - name: Run Unit Tests
+        run: npm run test
 
       - name: Run E2E Tests
         run: npm run test:e2e
